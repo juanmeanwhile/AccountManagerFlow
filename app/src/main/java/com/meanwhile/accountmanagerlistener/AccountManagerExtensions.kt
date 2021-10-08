@@ -23,8 +23,6 @@ fun AccountManager.accountStateFlow(): Flow<LoginStatus> = callbackFlow {
             }
     }
 
-    //Account manager instance is not garbage collected until a listener is removed
-    // Add lifecycle aware methods so it stops listening after onDestroy
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         addOnAccountsUpdatedListener(listener, null, true, arrayOf(ACCOUNT_TYPE))
     } else {

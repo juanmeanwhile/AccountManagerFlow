@@ -17,21 +17,14 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
+    private lateinit var loginButton: Button
+    private lateinit var logoutButton: Button
+    private lateinit var textView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val loginButton = findViewById<Button>(R.id.loginButton)
-        loginButton.setOnClickListener {
-            addAccount()
-        }
-
-        val logoutButton = findViewById<Button>(R.id.logoutButton)
-        logoutButton.setOnClickListener {
-            deleteAccount()
-        }
-
-        val textView = findViewById<TextView>(R.id.textView)
+        setupViews()
 
         viewModel.uiState.observe(this) { status ->
             when (status) {
@@ -47,26 +40,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun setupViews() {
+        loginButton = findViewById(R.id.loginButton)
+        loginButton.setOnClickListener {
+            addAccount()
+        }
 
-//        lifecycleScope.launch {
-//            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.uiState.collect { status ->
-//                    when (status) {
-//                        is LoginStatus.LoggedIn -> {
-//                            loginButton.isEnabled = false
-//                            logoutButton.isEnabled = true
-//                            textView.text = "logged user: ${status.userId}"
-//                        }
-//                        LoginStatus.LoggedOut -> {
-//                            loginButton.isEnabled = true
-//                            logoutButton.isEnabled = false
-//                            textView.text = "no one at home"
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        logoutButton = findViewById(R.id.logoutButton)
+        logoutButton.setOnClickListener {
+            deleteAccount()
+        }
+
+        textView = findViewById(R.id.textView)
     }
 
     private fun addAccount() {
